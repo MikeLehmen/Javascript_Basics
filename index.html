@@ -110,7 +110,8 @@
             }
             else {
                 //TODO:: REPLACE [chicagoStartups.reverse()] WITH A FUNCTION CALLED "chicagoStartupsReverse"
-                chicagoStartups.reverse().forEach( function(startup) {
+                //chicagoStartups.reverse().forEach( function(startup) {
+                chicagoStartupsReverse().forEach( function(startup) {
                     var childDiv = document.createElement('div');
                     var text = document.createTextNode(startup);
                     childDiv.appendChild(text);
@@ -121,7 +122,7 @@
     }
 
     function chicagoStartupsReverse() {
-        var reversedStartups = [];
+        //var reversedStartups = [];
         /*
             TODO: REVERSE THE CONTENTS OF THE ARRAY WITHOUT USING THE BUILT IN REVERSE METHOD
                   RETURN THE REVERSED ARRAY
@@ -133,6 +134,20 @@
                     DATA STRUTUCTURES REGARDLESS OF THE PROGRAMMING LANGUAGE
         
         */
+
+        console.log("Calling my reverse function...");
+        
+        // This can be done in place, but returning a function scoped var because that's how the template was set up.
+        
+        var reversedStartups = chicagoStartups;     // Redundant alias.
+        var tmp;
+        for (var i = 0, j = reversedStartups.length - 1; j > i; ++i, --j)   // Work from front and back and swap
+        {
+            tmp = reversedStartups[j];
+            reversedStartups[j] = reversedStartups[i];
+            reversedStartups[i] = tmp;
+        }
+
         return reversedStartups;
     }
 
