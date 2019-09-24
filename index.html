@@ -317,11 +317,17 @@
             scopedPopulateDivs();
         }
     }
+
+    function initStyleExtras() {
+        document.getElementById("rootContainer").firstChild.setAttribute("class", "startups-container");
+    }
     
     function run() {
         initDocument();
         initReverse();
         initToggle();
+
+        initStyleExtras();
     }
     run();
     
