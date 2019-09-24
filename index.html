@@ -157,7 +157,8 @@
             TODO: REMOVES ANY SPECIAL CHARACTERS FROM EACH COMPANY NAME AND
               DISPLAYS THE NUMBER OF REMAINING CHARACTERS NEXT TO THE FULL WORD.
               DONT FORGET TO REMOVE LEADING AND TRAILING WHITESPACES AS WELL
-        */
+        */  
+        // *** TENTATIVELY COMPLETE ***
 
         function scopedCleanStr(str) {
 
@@ -229,6 +230,19 @@
         document.getElementById('rootContainer').appendChild(reverseContainer);
     }
 
+    function initToggle() {
+        var toggleContainer = document.createElement("div");
+        toggleContainer.id = "toggleContainer";
+        var toggleButton = document.createElement("button");
+        var buttonText = document.createTextNode("Toggle Display");
+        toggleButton.onclick = toggleDisplay;
+        toggleButton.appendChild(buttonText);
+        var toggleButtonContainer = document.createElement("div");
+        toggleButtonContainer.appendChild(toggleButton);
+        document.getElementById("rootContainer").appendChild(toggleButtonContainer);
+        document.getElementById("rootContainer").appendChild(toggleContainer);
+    }
+
     function toggleDisplay() {
         /*
         TODO: REVIEW THE CODE IN THE PROVIDED REVERSE EXAMPLE, USE JAVASCRIPT TO ADD A CLICKABLE BUTTON 
@@ -244,11 +258,70 @@
 
             3.  
         */
+        // *** TENTATIVELY COMPLETE ***
+
+        function scopedPopulateDivs() {
+            var typeHelper = document.createElement("div");
+            typeHelper.id = "divType";
+            document.getElementById("toggleContainer").appendChild(typeHelper);
+
+            // Populate off of global chicagoStartups array
+            chicagoStartups.forEach( function(str) { 
+                var childDiv = document.createElement("div");
+                var text = document.createTextNode(str);
+                childDiv.appendChild(text);
+                typeHelper.appendChild(childDiv);
+            });
+        }
+
+        function scopedPopulateSpans() {
+            var typeHelper = document.createElement("div");
+            typeHelper.id = "spanType";
+            document.getElementById("toggleContainer").appendChild(typeHelper);
+
+            // Again, populate off of global chicagoStartups array
+            chicagoStartups.forEach( function(str) { 
+                var childDiv = document.createElement("span");
+                var text = document.createTextNode(str + ", ");
+                childDiv.appendChild(text);
+                typeHelper.appendChild(childDiv);
+            });
+        }
+
+        function scopedWipeElement(parent) {
+            if (parent.hasChildNodes()) {
+                while (parent.hasChildNodes()) {
+                    parent.removeChild(parent.lastChild);
+                }
+            }
+        }
+
+        // --- Begin main function ---
+        var toggleRoot = document.getElementById("toggleContainer");
+        var toggleContainer = toggleRoot.firstChild;
+        if (toggleContainer) {
+            if (toggleContainer.id == "divType") {
+                scopedWipeElement(toggleRoot);
+                scopedPopulateSpans();
+            }
+            else if (toggleContainer.id = "spanType") {
+                scopedWipeElement(toggleRoot);
+                scopedPopulateDivs();
+            }
+            else {
+                throw new Error ("Invalid element ID");
+            }
+        }
+        else {
+            // Initialize verical
+            scopedPopulateDivs();
+        }
     }
     
     function run() {
         initDocument();
         initReverse();
+        initToggle();
     }
     run();
     
