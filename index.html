@@ -200,6 +200,28 @@
             return count;
         }
 
+        function scopedTotalStartupChars(startups) {
+            var charCountObj = { };
+            var validChars = /\w/;
+            var startupsLength = startups.length;
+            for (var i = 0; i < startupsLength; ++i) {
+                let str = startups[i];
+                let length = str.length;
+                for (var j = 0; j < length; ++j) {
+                    let c = str.charAt(j);
+                    if (validChars.test(c)) {
+                        if (charCountObj.hasOwnProperty(c)) {
+                            ++charCountObj[c];
+                        }
+                        else {
+                            charCountObj[c] = 1;
+                        }
+                    }
+                }
+            }
+            return charCountObj;
+        }
+
         // --- Begin main function ---
 
         // Clean global chicagoStartups array
@@ -214,7 +236,12 @@
             targetList[i].innerHTML = i + " .) " + chicagoStartups[i] + " : " + scopedCountValidChars(chicagoStartups[i]);
         }
 
-
+        // Count all char occurances (extra credit)
+        var charCounts = scopedTotalStartupChars(chicagoStartups);
+        // Dump
+        Object.keys(charCounts).forEach(function (key) {
+            console.log(key + ": " + charCounts[key]);
+        });
     }
     
     function initReverse() {
