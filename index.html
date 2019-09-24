@@ -125,7 +125,7 @@
         //var reversedStartups = [];
         /*
             TODO: REVERSE THE CONTENTS OF THE ARRAY WITHOUT USING THE BUILT IN REVERSE METHOD
-                  RETURN THE REVERSED ARRAY     *** COMPLETE ***
+                  RETURN THE REVERSED ARRAY     *** TENTATIVELY COMPLETE ***
 
             TIPS: 
                 1.  REVIEW JAVASCRIPT ARRAY DATA STRUCTURE AND THE BUILTIN METHODS PROVIDED TO ALL ARRAYS
@@ -158,6 +158,61 @@
               DISPLAYS THE NUMBER OF REMAINING CHARACTERS NEXT TO THE FULL WORD.
               DONT FORGET TO REMOVE LEADING AND TRAILING WHITESPACES AS WELL
         */
+
+        function scopedCleanStr(str) {
+
+            function scopedStripSpecialChars(str) {
+                var validChars = /\w/;  // == /a-zA-Z0-9/ -> might take out digits
+                var singleSpace = / /;
+                var out = "";
+                var length = str.length;
+                for (var i = 0; i < length; ++i) {
+                    let c = str.charAt(i);
+                    if (validChars.test(c) || singleSpace.test(c)) {
+                        out += c;
+                    }
+                }
+                return out;
+            }
+
+            function scopedInternalTrim(str) {
+                var multipleSpaces = / {2,}/g;
+                return str.replace(multipleSpaces, " ");
+            }
+
+            var result = scopedStripSpecialChars(str);
+            result = result.trim();
+            result = scopedInternalTrim(result);
+            return result;
+        }
+
+        function scopedCountValidChars(str) {
+            var count = 0;
+            var validChars = /\w/;
+            var length = str.length;
+            for (var i = 0; i < length; ++i) {
+                let c = str.charAt(i);
+                if (validChars.test(c)) {
+                    ++count;
+                }
+            }
+            return count;
+        }
+
+        // --- Begin main function ---
+
+        // Clean global chicagoStartups array
+        var length = chicagoStartups.length;
+        for (var i = 0; i < length; ++i) {
+            chicagoStartups[i] = scopedCleanStr(chicagoStartups[i]);
+        }
+
+        // Render new display (alter existing tags rather than removing all tags from parent container and repopulating)
+        var targetList = document.getElementById("rootContainer").firstChild.childNodes;
+        for (i = 0; i < length; ++i) {
+            targetList[i].innerHTML = i + " .) " + chicagoStartups[i] + " : " + scopedCountValidChars(chicagoStartups[i]);
+        }
+
 
     }
     
