@@ -160,10 +160,11 @@
         */  
         // *** TENTATIVELY COMPLETE ***
 
-        function scopedCleanStr(str) {
+        var validChars = /[A-Za-z]/;    // No numbers!
 
+        function scopedCleanStr(str) {
+            
             function scopedStripSpecialChars(str) {
-                var validChars = /\w/;  // == /a-zA-Z0-9/ -> might take out digits
                 var singleSpace = / /;
                 var out = "";
                 var length = str.length;
@@ -189,7 +190,6 @@
 
         function scopedCountValidChars(str) {
             var count = 0;
-            var validChars = /\w/;
             var length = str.length;
             for (var i = 0; i < length; ++i) {
                 let c = str.charAt(i);
@@ -202,7 +202,6 @@
 
         function scopedTotalStartupChars(startups) {
             var charCountObj = { };
-            var validChars = /\w/;
             var startupsLength = startups.length;
             for (var i = 0; i < startupsLength; ++i) {
                 let str = startups[i];
@@ -238,10 +237,28 @@
 
         // Count all char occurances (extra credit)
         var charCounts = scopedTotalStartupChars(chicagoStartups);
-        // Dump
-        Object.keys(charCounts).forEach(function (key) {
-            console.log(key + ": " + charCounts[key]);
-        });
+        
+        // Render
+            // Clear
+        var charCountContainer = document.getElementById("charCountContainer");
+        if (charCountContainer.hasChildNodes()) {
+            while (charCountContainer.hasChildNodes()) {
+                charCountContainer.removeChild(charCountContainer.lastChild);
+            }
+        }
+            // Dump
+        Object.entries(charCounts).forEach(function(entry) {
+            let div = document.createElement("div");
+            let text = document.createTextNode(entry[0] + ": " + entry[1]);
+            div.appendChild(text);
+            charCountContainer.appendChild(div);
+        })
+    }
+
+    function initCharCountContainer() {
+        var charCountContainer = document.createElement("div");
+        charCountContainer.id = "charCountContainer";
+        document.getElementById("bottomDiv").appendChild(charCountContainer);
     }
     
     function initReverse() {
@@ -257,7 +274,14 @@
         document.getElementById('rootContainer').appendChild(reverseContainer);
     }
 
+    function initBottomDiv() {
+        var bottomDiv = document.createElement("div");
+        bottomDiv.id = "bottomDiv";
+        document.body.appendChild(bottomDiv);
+    }
+
     function initToggle() {
+
         var toggleContainer = document.createElement("div");
         toggleContainer.id = "toggleContainer";
         var toggleButton = document.createElement("button");
@@ -266,8 +290,10 @@
         toggleButton.appendChild(buttonText);
         var toggleButtonContainer = document.createElement("div");
         toggleButtonContainer.appendChild(toggleButton);
-        document.getElementById("rootContainer").appendChild(toggleButtonContainer);
-        document.getElementById("rootContainer").appendChild(toggleContainer);
+        //document.getElementById("rootContainer").appendChild(toggleButtonContainer);
+        //document.getElementById("rootContainer").appendChild(toggleContainer);
+        rootContainer.appendChild(toggleButtonContainer);
+        rootContainer.appendChild(toggleContainer);
     }
 
     function toggleDisplay() {
@@ -309,7 +335,7 @@
             // Again, populate off of global chicagoStartups array
             chicagoStartups.forEach( function(str) { 
                 var childDiv = document.createElement("span");
-                var text = document.createTextNode(str + ", ");
+                var text = document.createTextNode(str + " ");
                 childDiv.appendChild(text);
                 typeHelper.appendChild(childDiv);
             });
@@ -358,6 +384,8 @@
     
     function run() {
         initDocument();
+        initBottomDiv();
+        initCharCountContainer();
         initReverse();
         initToggle();
 
