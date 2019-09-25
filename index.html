@@ -34,15 +34,15 @@
     }
 
     .red {
-        background-image: red;
+        background-color: red;
     }
 
     .blue {
-        background-image: blue;
+        background-color: blue;
     }
 
     .gold {
-        background-image: gold;
+        background-color: gold;
     }
 </style>
 
@@ -346,7 +346,14 @@
     }
 
     function initStyleExtras() {
+        // Set root list background color
         document.getElementById("rootContainer").firstChild.setAttribute("class", "startups-container");
+
+        // Set title background 
+        var buttons = document.getElementsByTagName("button");
+        buttons[0].setAttribute("class", "red");
+        buttons[1].setAttribute("class", "blue");
+        buttons[2].setAttribute("class", "gold");
     }
     
     function run() {
